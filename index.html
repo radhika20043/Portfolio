@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radhika — Designer & Creative Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Sora:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0:       #010912;
+      --bg-1:       #040f1e;
+      --bg-2:       #071428;
+      --bg-card:    #0b1d38;
+      --bg-card2:   #0d2244;
+      --accent:     #4ba8d8;
+      --accent-2:   #7ecae3;
+      --accent-glow:rgba(75,168,216,0.25);
+      --accent-dim: #2675a8;
+      --cloud:      #eef5ff;
+      --cloud-dim:  #a8c4df;
+      --cloud-faint:#607a94;
+      --star:       #c8e2ff;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'Sora', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-0);
+      color: var(--cloud);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.75;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* ─── BUTTERFLY CURSOR ─── */
+    #bfly {
+      position: fixed;
+      width: 48px; height: 36px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+    }
+    #bfly svg { width: 100%; height: 100%; }
+    .wing-l { transform-origin: 100% 55%; animation: flap-l 0.28s ease-in-out infinite alternate; }
+    .wing-r { transform-origin: 0%   55%; animation: flap-r 0.28s ease-in-out infinite alternate; }
+    @keyframes flap-l { to { transform: rotateY(55deg) scaleY(0.9); } }
+    @keyframes flap-r { to { transform: rotateY(-55deg) scaleY(0.9); } }
+
+    /* ─── PARTICLES ─── */
+    .prt {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      animation: prt-fade var(--d,0.8s) ease-out forwards;
+    }
+    @keyframes prt-fade {
+      0%   { opacity: 0.9; transform: translate(0,0) scale(1); }
+      100% { opacity: 0;   transform: translate(var(--tx),var(--ty)) scale(0); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5rem;
+      background: linear-gradient(to bottom, rgba(1,9,18,0.92) 0%, transparent 100%);
+      backdrop-filter: blur(3px);
+      transition: background 0.4s;
+    }
+    nav.solid { background: rgba(1,9,18,0.97); }
+    .nav-logo {
+      font-family: var(--serif); font-style: italic; font-size: 1.7rem;
+      color: var(--cloud); text-decoration: none; letter-spacing: 0.03em;
+    }
+    .nav-logo span { color: var(--accent-2); }
+    .nav-links { display: flex; gap: 2.8rem; list-style: none; }
+    .nav-links a {
+      color: var(--cloud-dim); text-decoration: none;
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent-2); }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative; height: 100vh; min-height: 680px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #star-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ── HERO FLOWERS (TULIPS) ── */
+    .hero-flowers {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      display: flex; align-items: flex-end; justify-content: space-around;
+      padding: 0 3vw; pointer-events: none; overflow: visible;
+    }
+    .flower-wrap {
+      pointer-events: all; flex-shrink: 0;
+      opacity: 0; animation: flwrIn 1.1s ease forwards;
+    }
+    .flower-wrap:nth-child(1){animation-delay:1.8s;}
+    .flower-wrap:nth-child(2){animation-delay:2.05s;}
+    .flower-wrap:nth-child(3){animation-delay:2.3s;}
+    .flower-wrap:nth-child(4){animation-delay:2.55s;}
+    .flower-wrap:nth-child(5){animation-delay:2.8s;}
+    .flower-wrap:nth-child(6){animation-delay:3.05s;}
+    @keyframes flwrIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .flower-wrap svg { display: block; overflow: visible; }
+    /* size variants */
+    .fw-lg svg { width: 88px; }
+    .fw-md svg { width: 66px; }
+    .fw-sm svg { width: 50px; }
+    /* petal animation — correct origins per petal type */
+    .fl-pl {
+      transform-box: fill-box; transform-origin: 100% 100%;
+      transition: transform 0.58s cubic-bezier(0.34,1.56,0.64,1), filter 0.42s ease;
+    }
+    .fl-pr {
+      transform-box: fill-box; transform-origin: 0% 100%;
+      transition: transform 0.58s cubic-bezier(0.34,1.56,0.64,1), filter 0.42s ease;
+    }
+    .fl-pc {
+      transform-box: fill-box; transform-origin: 50% 100%;
+      transition: transform 0.58s cubic-bezier(0.34,1.56,0.64,1), filter 0.42s ease;
+    }
+    /* closed resting state */
+    .fl-pl { transform: rotate(14deg);  }
+    .fl-pr { transform: rotate(-14deg); }
+    .fl-pc { transform: scaleX(0.72);   }
+    /* bloom on hover — wide open */
+    .flower-wrap:hover .fl-pl { transform: rotate(-32deg) scaleX(1.5) scaleY(1.2); filter: drop-shadow(0 0 12px var(--fp)); }
+    .flower-wrap:hover .fl-pr { transform: rotate(32deg)  scaleX(1.5) scaleY(1.2); filter: drop-shadow(0 0 12px var(--fp)); }
+    .flower-wrap:hover .fl-pc { transform: scaleX(1.6) scaleY(1.15);               filter: drop-shadow(0 0 12px var(--fp)); }
+    /* leaf glow on hover */
+    .fl-leaf { transition: filter 0.42s ease; }
+    .flower-wrap:hover .fl-leaf { filter: drop-shadow(0 0 5px rgba(75,168,216,0.32)); }
+    /* keep scroll hint above flowers */
+    .hero-scroll-hint { z-index: 3; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 2rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.55rem;
+      opacity: 0; animation: riseUp 0.8s ease forwards 0.6s;
+    }
+    .hero-subrole {
+      font-size: 0.58rem; letter-spacing: 0.48em; text-transform: uppercase;
+      color: var(--accent); opacity: 0;
+      animation: riseUp 0.8s ease forwards 1.2s;
+      margin-top: 1.1rem; margin-bottom: -0.6rem;
+      filter: opacity(75%);
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 13vw, 12rem);
+      font-weight: 300; line-height: 0.88;
+      letter-spacing: -0.02em; color: var(--cloud);
+      opacity: 0; animation: riseUp 1s ease forwards 0.85s;
+    }
+    .hero-name em { font-style: italic; color: var(--accent-2); }
+    .hero-sub {
+      font-family: var(--serif); font-style: italic; font-weight: 300;
+      font-size: clamp(1rem, 2.4vw, 1.45rem);
+      color: var(--cloud-dim); margin-top: 1.6rem;
+      opacity: 0; animation: riseUp 0.8s ease forwards 1.1s;
+    }
+    .hero-pills {
+      display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.2rem;
+      opacity: 0; animation: riseUp 0.8s ease forwards 1.35s;
+    }
+    .hero-pill {
+      padding: 0.38rem 1.1rem;
+      border: 1px solid rgba(75,168,216,0.3); border-radius: 100px;
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      color: var(--accent-2); background: rgba(75,168,216,0.06);
+      text-decoration: none;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
+    }
+    a.hero-pill:hover {
+      background: rgba(75,168,216,0.18);
+      border-color: rgba(75,168,216,0.65);
+      color: var(--cloud);
+    }
+    .hero-scroll-hint {
+      position: absolute; bottom: 2.8rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--cloud-faint); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+      opacity: 0; animation: fadeIn 1s ease forwards 2.2s;
+    }
+    .scroll-bar {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
+      animation: pulse-bar 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-bar { 0%,100%{opacity:.2} 50%{opacity:1} }
+    @keyframes riseUp  { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+
+    /* ─── SHARED SECTION STYLES ─── */
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 5rem; }
+    .section-pad { padding: 8rem 0; }
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.9rem;
+    }
+    .section-title {
+      font-family: var(--serif); font-weight: 300; line-height: 1.08;
+      font-size: clamp(2.4rem, 5vw, 4rem); color: var(--cloud);
+    }
+    .section-title em { font-style: italic; color: var(--accent-2); }
+
+   
+    /* ─── PROJECTS ─── */
+    #projects { border-top: 1px solid rgba(75,168,216,0.08); }
+    .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; margin-top: 3.5rem; }
+    .proj-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(75,168,216,0.1);
+      border-radius: 16px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .proj-card:hover {
+      border-color: rgba(75,168,216,0.3);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 40px rgba(75,168,216,0.08);
+      transform: translateY(-8px);
+    }
+    .proj-visual {
+      height: 220px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .proj-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--bg-card) 100%);
+    }
+    .proj-visual img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.7;
+    }
+    .proj-visual svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+    .proj-visual-icon { position: relative; z-index: 1; font-size: 3.2rem; }
+    .proj-body { padding: 1.8rem 2rem; flex: 1; display: flex; flex-direction: column; }
+    .proj-tags { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+    .proj-tag {
+      font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); background: rgba(75,168,216,0.1);
+      padding: 0.2rem 0.6rem; border-radius: 3px;
+    }
+    .proj-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; color: var(--cloud); margin-bottom: 0.55rem; line-height: 1.1; }
+    .proj-desc { font-size: 0.83rem; color: var(--cloud-dim); line-height: 1.78; flex: 1; }
+    .proj-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      margin-top: 1.4rem; font-size: 0.76rem; color: var(--accent-2);
+      text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: gap 0.3s;
+    }
+    .proj-link:hover { gap: 0.75rem; }
+    
+     /* ─── ABOUT ─── */
+    #about .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 7rem; align-items: start; }
+    .about-text {
+      font-size: 1.02rem; color: var(--cloud-dim); line-height: 1.95;
+      margin-top: 2rem;
+    }
+    .about-text strong { color: var(--cloud); font-weight: 500; }
+    .traits { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 2.5rem; }
+    .trait {
+      display: flex; align-items: center; gap: 0.45rem;
+      font-size: 0.82rem; color: var(--cloud-faint);
+    }
+    .trait-ico { font-size: 1rem; }
+    .about-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 2.5rem; font-size: 0.78rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent-2);
+      text-decoration: none; border-bottom: 1px solid rgba(126,202,227,0.3);
+      padding-bottom: 0.25rem; transition: gap 0.3s, border-color 0.3s;
+    }
+    .about-cta:hover { gap: 0.8rem; border-color: var(--accent-2); }
+    /* right col quick-stats */
+    .about-stats { display: flex; flex-direction: column; gap: 1.4rem; }
+    .about-stat {
+      padding: 1.6rem 2rem;
+      background: var(--bg-card);
+      border: 1px solid rgba(75,168,216,0.1);
+      border-radius: 12px; transition: all 0.3s;
+    }
+    .about-stat:hover { border-color: rgba(75,168,216,0.25); transform: translateX(4px); }
+    .about-stat-num {
+      font-family: var(--serif); font-size: 2.8rem; font-weight: 300;
+      color: var(--accent-2); line-height: 1;
+    }
+    .about-stat-label { font-size: 0.75rem; color: var(--cloud-dim); margin-top: 0.3rem; }
+    .about-skills-preview { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+    .about-photo {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-photo img {
+      width: 100%; max-width: 420px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 1px solid rgba(75,168,216,0.15);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 40px rgba(75,168,216,0.07);
+    }
+
+
+    /* ─── ACHIEVEMENTS ─── */
+    #achievements { border-top: 1px solid rgba(75,168,216,0.08); }
+    .ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+
+    /* flip wrapper */
+    .ach-card {
+      border-radius: 14px; position: relative;
+      height: 360px; perspective: 1200px; cursor: default;
+    }
+    .ach-flip-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.4,0,0.2,1);
+      border-radius: 14px;
+    }
+    .ach-card:hover .ach-flip-inner,
+    .ach-card.tapped .ach-flip-inner { transform: rotateY(180deg); }
+
+    /* front face */
+    .ach-front {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: 14px; overflow: hidden;
+      background: linear-gradient(140deg, rgba(11,29,56,0.9) 0%, rgba(7,20,40,0.95) 100%);
+      border: 1px solid rgba(75,168,216,0.12);
+      padding: 2.2rem 2.4rem;
+      display: flex; flex-direction: column;
+    }
+    .ach-front::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .ach-card:hover .ach-front::before { opacity: 1; }
+
+    /* back face */
+    .ach-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      transform: rotateY(180deg);
+      border-radius: 14px; overflow: hidden;
+      background: #000;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .ach-back img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.72; display: block;
+    }
+    .ach-back-overlay {
+      position: relative; z-index: 1;
+      padding: 1.6rem 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    }
+    .ach-back-title {
+      font-family: var(--serif); font-size: 1.2rem; color: var(--cloud); margin-bottom: 0.3rem;
+    }
+    .ach-back-note {
+      font-size: 0.68rem; letter-spacing: 0.12em; color: var(--accent-2);
+    }
+
+    .ach-icon { font-size: 2.4rem; margin-bottom: 1.1rem; }
+    .ach-badge {
+      display: inline-block; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); background: rgba(75,168,216,0.1);
+      border: 1px solid rgba(75,168,216,0.2);
+      padding: 0.22rem 0.75rem; border-radius: 100px; margin-bottom: 0.85rem;
+    }
+    .ach-title { font-family: var(--serif); font-size: 1.45rem; font-weight: 400; color: var(--cloud); margin-bottom: 0.65rem; }
+    .ach-desc { font-size: 0.83rem; color: var(--cloud-dim); line-height: 1.75; }
+    .ach-note {
+      margin-top: auto; padding-top: 1rem; font-family: var(--serif); font-style: italic;
+      font-size: 0.78rem; color: var(--accent-2);
+    }
+
+    /* internship block — flip card */
+    .intern-block {
+      margin-top: 1.5rem;
+      border-radius: 14px;
+      height: 240px;
+      perspective: 1200px;
+      cursor: default;
+    }
+    .intern-flip-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.4,0,0.2,1);
+      border-radius: 14px;
+    }
+    .intern-block:hover .intern-flip-inner,
+    .intern-block.tapped .intern-flip-inner { transform: rotateY(180deg); }
+    .intern-front {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      border-radius: 14px; overflow: hidden;
+      background: linear-gradient(140deg, rgba(9,22,46,0.95) 0%, rgba(5,13,28,0.98) 100%);
+      border: 1px solid rgba(75,168,216,0.12);
+      padding: 2.8rem 3.2rem;
+      display: grid; grid-template-columns: auto 1fr; gap: 3.5rem; align-items: center;
+    }
+    .intern-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      transform: rotateY(180deg);
+      border-radius: 14px; overflow: hidden;
+      background: #000;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .intern-back img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.72; display: block;
+    }
+    .intern-back-overlay {
+      position: relative; z-index: 1;
+      padding: 1.6rem 2.4rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    }
+    .intern-back-title {
+      font-family: var(--serif); font-size: 1.4rem; color: var(--cloud); margin-bottom: 0.3rem;
+    }
+    .intern-back-note {
+      font-size: 0.68rem; letter-spacing: 0.12em; color: var(--accent-2);
+    }
+    .intern-years {
+      font-family: var(--serif); font-style: italic;
+      font-size: 4.5rem; font-weight: 300; line-height: 1;
+      color: var(--accent-2); white-space: nowrap;
+    }
+    .intern-sub { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .intern-title { font-family: var(--serif); font-size: 1.55rem; font-weight: 400; color: var(--cloud); margin-bottom: 0.7rem; }
+    .intern-desc { font-size: 0.85rem; color: var(--cloud-dim); line-height: 1.8; }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      border-top: 1px solid rgba(75,168,216,0.1);
+      text-align: center;
+    }
+    .contact-heading {
+      font-family: var(--serif); font-weight: 300; line-height: 1.08;
+      font-size: clamp(2.8rem, 6vw, 5rem); color: var(--cloud); margin-bottom: 1.1rem;
+    }
+    .contact-heading em { font-style: italic; color: var(--accent-2); }
+    .contact-sub { font-size: 0.95rem; color: var(--cloud-dim); margin-bottom: 3rem; }
+    .contact-email {
+      font-family: var(--serif); font-size: 1.4rem; color: var(--cloud);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(75,168,216,0.35);
+      padding-bottom: 0.3rem;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .contact-email:hover { color: var(--accent-2); border-color: var(--accent-2); }
+    .socials { display: flex; gap: 2.5rem; justify-content: center; margin-top: 2.8rem; }
+    .social-link {
+      font-size: 0.73rem; letter-spacing: 0.17em; text-transform: uppercase;
+      color: var(--cloud-faint); text-decoration: none; transition: color 0.3s;
+    }
+    .social-link:hover { color: var(--accent-2); }
+    footer {
+      text-align: center; padding: 2.2rem;
+      font-size: 0.68rem; color: var(--cloud-faint); opacity: 0.4; letter-spacing: 0.08em;
+    }
+
+    /* ─── REVEAL ─── */
+    .rev {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .rev.in { opacity: 1; transform: translateY(0); }
+    .rev.d1 { transition-delay: 0.1s; }
+    .rev.d2 { transition-delay: 0.2s; }
+    .rev.d3 { transition-delay: 0.3s; }
+    .rev.d4 { transition-delay: 0.4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .proj-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      /* nav */
+      nav { padding: 1.4rem 1.5rem; }
+      .nav-links { display: none; }
+
+      /* layout */
+      .wrap { padding: 0 1.5rem; }
+      .section-pad { padding: 5rem 0; }
+
+      /* cursor — hide butterfly on touch devices */
+      #bfly { display: none; }
+      body { cursor: auto; }
+
+      /* hero flowers — scale down */
+      .fw-lg svg { width: 58px; }
+      .fw-md svg { width: 44px; }
+      .fw-sm svg { width: 34px; }
+
+      /* projects */
+      .proj-grid { grid-template-columns: 1fr; }
+
+      /* achievement flip cards — single column, taller */
+      .ach-grid { grid-template-columns: 1fr; }
+      .ach-card { height: 520px; }
+
+      /* internship flip card — stack layout vertically */
+      .intern-block { height: 460px; }
+      .intern-front {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        padding: 2rem 1.8rem;
+        align-items: start;
+      }
+      .intern-years { font-size: 3rem; }
+      .intern-title { font-size: 1.3rem; margin-bottom: 0.4rem; }
+      .intern-desc { font-size: 0.78rem; line-height: 1.65; }
+
+      /* about */
+      #about .wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-photo img { max-width: 100%; }
+
+      /* contact */
+      .socials { gap: 1.5rem; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ BUTTERFLY CURSOR ═══ -->
+<div id="bfly">
+  <svg viewBox="0 0 48 36" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <!-- left upper wing -->
+    <g class="wing-l">
+      <path d="M24,18 C18,5 2,1 2,12 C2,20 13,23 24,18Z"
+            fill="rgba(75,168,216,0.72)" stroke="rgba(126,202,227,0.55)" stroke-width="0.5"/>
+      <!-- inner shimmer -->
+      <path d="M24,18 C18,10 8,7 6,13" stroke="rgba(200,235,255,0.35)" stroke-width="0.8" stroke-linecap="round"/>
+      <circle cx="10" cy="12" r="1.8" fill="rgba(200,240,255,0.4)"/>
+    </g>
+    <!-- right upper wing -->
+    <g class="wing-r">
+      <path d="M24,18 C30,5 46,1 46,12 C46,20 35,23 24,18Z"
+            fill="rgba(75,168,216,0.72)" stroke="rgba(126,202,227,0.55)" stroke-width="0.5"/>
+      <path d="M24,18 C30,10 40,7 42,13" stroke="rgba(200,235,255,0.35)" stroke-width="0.8" stroke-linecap="round"/>
+      <circle cx="38" cy="12" r="1.8" fill="rgba(200,240,255,0.4)"/>
+    </g>
+    <!-- left lower wing -->
+    <g class="wing-l">
+      <path d="M24,18 C14,22 5,28 8,31 C13,34 20,27 24,23Z"
+            fill="rgba(38,117,168,0.65)" stroke="rgba(75,168,216,0.4)" stroke-width="0.5"/>
+    </g>
+    <!-- right lower wing -->
+    <g class="wing-r">
+      <path d="M24,18 C34,22 43,28 40,31 C35,34 28,27 24,23Z"
+            fill="rgba(38,117,168,0.65)" stroke="rgba(75,168,216,0.4)" stroke-width="0.5"/>
+    </g>
+    <!-- body -->
+    <ellipse cx="24" cy="20" rx="1.3" ry="7" fill="rgba(190,225,255,0.65)"/>
+    <!-- antennae -->
+    <path d="M24,13 C22,9 20,5 18.5,3" stroke="rgba(180,220,255,0.5)" stroke-width="0.9" stroke-linecap="round"/>
+    <path d="M24,13 C26,9 28,5 29.5,3" stroke="rgba(180,220,255,0.5)" stroke-width="0.9" stroke-linecap="round"/>
+    <circle cx="18.5" cy="3" r="1.2" fill="rgba(180,220,255,0.55)"/>
+    <circle cx="29.5" cy="3" r="1.2" fill="rgba(180,220,255,0.55)"/>
+  </svg>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">Radhika</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <canvas id="star-canvas"></canvas>
+
+  <!-- ░░ BLOOMING TULIPS ░░ -->
+  <div class="hero-flowers">
+
+    <!-- Flower 1 — LARGE · cloud white -->
+    <div class="flower-wrap fw-lg" style="--fp:rgba(210,238,255,0.8)">
+      <svg viewBox="0 0 100 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="f1l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f0f7ff"/><stop offset="100%" stop-color="#c0dcf5"/></linearGradient>
+          <linearGradient id="f1c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f8fbff"/><stop offset="100%" stop-color="#d4eaff"/></linearGradient>
+        </defs>
+        <!-- stem -->
+        <path d="M50,230 C50,208 50,185 50,142" stroke="rgba(75,155,185,0.45)" stroke-width="2.8" stroke-linecap="round"/>
+        <!-- left leaf -->
+        <path class="fl-leaf" d="M50,190 C34,178 22,156 27,138 C36,157 44,175 50,190Z" fill="rgba(52,132,162,0.38)"/>
+        <!-- right leaf -->
+        <path class="fl-leaf" d="M50,166 C66,154 78,134 73,116 C64,135 56,153 50,166Z" fill="rgba(52,132,162,0.30)"/>
+        <!-- left petal -->
+        <path class="fl-pl" d="M50,142 C33,126 18,104 22,80 C31,102 42,123 50,142Z" fill="url(#f1l)"/>
+        <!-- center petal (taller) -->
+        <path class="fl-pc" d="M50,142 C39,118 36,94 38,72 C40,54 60,54 62,72 C64,94 61,118 50,142Z" fill="url(#f1c)"/>
+        <!-- right petal -->
+        <path class="fl-pr" d="M50,142 C67,126 82,104 78,80 C69,102 58,123 50,142Z" fill="url(#f1l)"/>
+      </svg>
+    </div>
+
+    <!-- Flower 2 — SMALL · ice blue -->
+    <div class="flower-wrap fw-sm" style="--fp:rgba(126,202,227,0.8); margin-bottom:18px;">
+      <svg viewBox="0 0 100 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="f2l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#cce8ff"/><stop offset="100%" stop-color="#7ecae3"/></linearGradient>
+          <linearGradient id="f2c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ddf0ff"/><stop offset="100%" stop-color="#8dcfea"/></linearGradient>
+        </defs>
+        <path d="M50,230 C50,208 50,185 50,142" stroke="rgba(75,155,185,0.4)" stroke-width="2.5" stroke-linecap="round"/>
+        <path class="fl-leaf" d="M50,185 C36,174 25,153 30,136 C38,154 45,172 50,185Z" fill="rgba(52,132,162,0.34)"/>
+        <path class="fl-pl" d="M50,142 C33,126 18,104 22,80 C31,102 42,123 50,142Z" fill="url(#f2l)"/>
+        <path class="fl-pc" d="M50,142 C39,118 36,94 38,72 C40,54 60,54 62,72 C64,94 61,118 50,142Z" fill="url(#f2c)"/>
+        <path class="fl-pr" d="M50,142 C67,126 82,104 78,80 C69,102 58,123 50,142Z" fill="url(#f2l)"/>
+      </svg>
+    </div>
+
+    <!-- Flower 3 — MEDIUM · deep accent blue -->
+    <div class="flower-wrap fw-md" style="--fp:rgba(75,168,216,0.9)">
+      <svg viewBox="0 0 100 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="f3l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#7ecae3"/><stop offset="100%" stop-color="#2675a8"/></linearGradient>
+          <linearGradient id="f3c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#93d2ea"/><stop offset="100%" stop-color="#1e5a8a"/></linearGradient>
+        </defs>
+        <path d="M50,230 C50,208 50,185 50,142" stroke="rgba(75,155,185,0.42)" stroke-width="2.6" stroke-linecap="round"/>
+        <path class="fl-leaf" d="M50,192 C34,180 22,158 27,140 C36,159 44,177 50,192Z" fill="rgba(52,132,162,0.4)"/>
+        <path class="fl-leaf" d="M50,168 C66,156 78,136 73,118 C64,137 56,155 50,168Z" fill="rgba(52,132,162,0.32)"/>
+        <path class="fl-pl" d="M50,142 C33,126 18,104 22,80 C31,102 42,123 50,142Z" fill="url(#f3l)"/>
+        <path class="fl-pc" d="M50,142 C39,118 36,94 38,72 C40,54 60,54 62,72 C64,94 61,118 50,142Z" fill="url(#f3c)"/>
+        <path class="fl-pr" d="M50,142 C67,126 82,104 78,80 C69,102 58,123 50,142Z" fill="url(#f3l)"/>
+      </svg>
+    </div>
+
+    <!-- Flower 4 — LARGE · pure cloud white (tallest, center-right) -->
+    <div class="flower-wrap fw-lg" style="--fp:rgba(238,245,255,0.9)">
+      <svg viewBox="0 0 100 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="f4l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="100%" stop-color="#c8e2ff"/></linearGradient>
+          <linearGradient id="f4c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#d8eeff"/></linearGradient>
+        </defs>
+        <path d="M50,230 C50,208 50,185 50,142" stroke="rgba(75,155,185,0.45)" stroke-width="2.8" stroke-linecap="round"/>
+        <path class="fl-leaf" d="M50,190 C34,178 22,156 27,138 C36,157 44,175 50,190Z" fill="rgba(52,132,162,0.38)"/>
+        <path class="fl-leaf" d="M50,166 C66,154 78,134 73,116 C64,135 56,153 50,166Z" fill="rgba(52,132,162,0.30)"/>
+        <path class="fl-pl" d="M50,142 C33,126 18,104 22,80 C31,102 42,123 50,142Z" fill="url(#f4l)"/>
+        <path class="fl-pc" d="M50,142 C39,118 36,94 38,72 C40,54 60,54 62,72 C64,94 61,118 50,142Z" fill="url(#f4c)"/>
+        <path class="fl-pr" d="M50,142 C67,126 82,104 78,80 C69,102 58,123 50,142Z" fill="url(#f4l)"/>
+      </svg>
+    </div>
+
+    <!-- Flower 5 — SMALL · pale icy, offset up slightly -->
+    <div class="flower-wrap fw-sm" style="--fp:rgba(200,230,255,0.8); margin-bottom:12px;">
+      <svg viewBox="0 0 100 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="f5l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e4f3ff"/><stop offset="100%" stop-color="#a0cfe8"/></linearGradient>
+          <linearGradient id="f5c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#eef8ff"/><stop offset="100%" stop-color="#b8dbf0"/></linearGradient>
+        </defs>
+        <path d="M50,230 C50,208 50,185 50,142" stroke="rgba(75,155,185,0.38)" stroke-width="2.4" stroke-linecap="round"/>
+        <path class="fl-leaf" d="M50,185 C36,174 25,153 30,136 C38,154 45,172 50,185Z" fill="rgba(52,132,162,0.32)"/>
+        <path class="fl-pl" d="M50,142 C33,126 18,104 22,80 C31,102 42,123 50,142Z" fill="url(#f5l)"/>
+        <path class="fl-pc" d="M50,142 C39,118 36,94 38,72 C40,54 60,54 62,72 C64,94 61,118 50,142Z" fill="url(#f5c)"/>
+        <path class="fl-pr" d="M50,142 C67,126 82,104 78,80 C69,102 58,123 50,142Z" fill="url(#f5l)"/>
+      </svg>
+    </div>
+
+    <!-- Flower 6 — MEDIUM · soft blue-white -->
+    <div class="flower-wrap fw-md" style="--fp:rgba(175,215,245,0.8)">
+      <svg viewBox="0 0 100 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="f6l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d8eeff"/><stop offset="100%" stop-color="#5aadd4"/></linearGradient>
+          <linearGradient id="f6c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e4f4ff"/><stop offset="100%" stop-color="#6bbcde"/></linearGradient>
+        </defs>
+        <path d="M50,230 C50,208 50,185 50,142" stroke="rgba(75,155,185,0.42)" stroke-width="2.6" stroke-linecap="round"/>
+        <path class="fl-leaf" d="M50,192 C34,180 22,158 27,140 C36,159 44,177 50,192Z" fill="rgba(52,132,162,0.38)"/>
+        <path class="fl-leaf" d="M50,168 C66,156 78,136 73,118 C64,137 56,155 50,168Z" fill="rgba(52,132,162,0.28)"/>
+        <path class="fl-pl" d="M50,142 C33,126 18,104 22,80 C31,102 42,123 50,142Z" fill="url(#f6l)"/>
+        <path class="fl-pc" d="M50,142 C39,118 36,94 38,72 C40,54 60,54 62,72 C64,94 61,118 50,142Z" fill="url(#f6c)"/>
+        <path class="fl-pr" d="M50,142 C67,126 82,104 78,80 C69,102 58,123 50,142Z" fill="url(#f6l)"/>
+      </svg>
+    </div>
+
+  </div>
+
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Designer · Illustrator · XR Explorer</p>
+    <h1 class="hero-name">Radhika</h1>
+    <p class="hero-sub">Building my creative world from scratch—Learning. Creating. Evolving</p>
+    <p class="hero-subrole">B.Des Student at DTU</p>
+    <div class="hero-pills">
+      <a href="petgram.html" target="_blank" rel="noopener" class="hero-pill">UI/UX Design</a>
+      <a href="https://www.behance.net/gallery/246601997/The-Cloud-Who-Wanted-a-Hug-Childrens-Picture-Book" target="_blank" rel="noopener" class="hero-pill">Illustration</a>
+      <a href="north-east.html" target="_blank" rel="noopener" class="hero-pill">AR / XR</a>
+      <a href="Internship.html" target="_blank" rel="noopener" class="hero-pill">Brand Identity</a>
+      <a href="https://www.behance.net/gallery/243317905/Blooming-Lotus-Procedural-3D-Art" target="_blank" rel="noopener" class="hero-pill">Blender 3D</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-bar"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects" class="section-pad">
+  <div class="wrap">
+    <div class="rev">
+      <p class="section-label">01 — Work</p>
+      <h2 class="section-title">Selected <em>works</em></h2>
+    </div>
+
+    <div class="proj-grid">
+
+      <!-- PETGRAM -->
+      <div class="proj-card rev d1">
+        <div class="proj-visual">
+          <img src="images/petgram-overview.jpg" alt="Petgram" />
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">UI/UX Design</span>
+            <span class="proj-tag">Mobile App</span>
+            <span class="proj-tag">Design Thinking</span>
+          </div>
+          <h3 class="proj-title">Petgram</h3>
+          <p class="proj-desc">A social platform connecting pet lovers, adopters, and local pet services through adoption drives, play sessions, and community interactions.</p>
+          <a href="petgram.html" class="proj-link">View Case Study →</a>
+        </div>
+      </div>
+
+      <!-- FACES OF THE NORTH EAST -->
+      <div class="proj-card rev d2">
+        <div class="proj-visual">
+          <img src="northeast-thumbnail.png" alt="Faces of the North-East" />
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">AR Design</span>
+            <span class="proj-tag">Cultural Heritage</span>
+            <span class="proj-tag">Lens Studio</span>
+          </div>
+          <h3 class="proj-title">Faces of the North-East</h3>
+          <p class="proj-desc">An AR storytelling experience preserving Naga cultural heritage through interactive lenses inspired by Konyak tattoos, the Hornbill Festival, and the Tati instrument.</p>
+          <a href="north-east.html" class="proj-link">View Case Study →</a>
+        </div>
+      </div>
+
+      <!-- AUTHOR BRAND -->
+      <div class="proj-card rev d3">
+        <div class="proj-visual">
+          <img src="Internship-thumbnail.jpeg" alt="International Author Brand" />
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">Brand Identity</span>
+            <span class="proj-tag">Event Design</span>
+            <span class="proj-tag">Web Design</span>
+          </div>
+          <h3 class="proj-title">International Author Brand</h3>
+          <p class="proj-desc">Built the digital identity of an international author through website design, social media, documentary animations, and launch event branding.</p>
+          <a href="Internship.html" class="proj-link">See Work →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACHIEVEMENTS ═══ -->
+<section id="achievements" class="section-pad">
+  <div class="wrap">
+    <div class="rev">
+      <p class="section-label">02 — Achievements</p>
+      <h2 class="section-title">Milestones <em>&<br>explorations</em></h2>
+    </div>
+
+    <div class="ach-grid">
+
+      <!-- Hackathon Win -->
+      <div class="ach-card rev d1">
+        <div class="ach-flip-inner">
+          <div class="ach-front">
+            <div class="ach-icon">🥉</div>
+            <p class="intern-sub">3rd Place · First Ever Hackathon</p>
+            <h3 class="ach-title">SnapAR Solo Hackathon — Children’s Day Edition</h3>
+            <p class="ach-desc">
+              My first hackathon — and my first win. Secured 3rd place in the SnapAR Solo Hackathon: Children’s Day Edition by Bharat XR with a Shinchan AR filter built in Lens Studio after a month of self-learning and experimentation.
+            </p>
+            <p class="ach-note">✦ 3rd Place · SnapAR Solo Hackathon · Bharat XR · Children’s Day · Shinchan Filter</p>
+          </div>
+          <div class="ach-back">
+            <img src="Snap1.png" alt="SnapAR Hackathon" />
+            <div class="ach-back-overlay">
+              <p class="ach-back-title">SnapAR Solo Hackathon</p>
+              <p class="ach-back-note">3rd Place · Children’s Day Edition · Bharat XR</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GrabWay -->
+      <div class="ach-card rev d2">
+        <div class="ach-flip-inner">
+          <div class="ach-front">
+            <div class="ach-icon">🌐</div>
+            <p class="intern-sub">Global Hackathon · Finalist</p>
+            <h3 class="ach-title">GrabWay — XR In-Store Shopping</h3>
+            <p class="ach-desc">
+              An XR-powered shopping assistant built for the XRCC Global Hackathon. Using Spectacles for the first time, I designed AR navigation with smart product guidance using Lens Studio, world tracking, and JavaScript.
+            </p>
+            <p class="ach-note">✦ XRCC Global Hackathon · Lens Studio · World Tracking · JS</p>
+          </div>
+          <div class="ach-back">
+            <img src="Snap2.png" alt="GrabWay XR" />
+            <div class="ach-back-overlay">
+              <p class="ach-back-title">GrabWay — XR Shopping</p>
+              <p class="ach-back-note">XRCC Global Hackathon · Finalist</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Internship block -->
+    <div class="intern-block rev">
+      <div class="intern-flip-inner">
+        <div class="intern-front">
+          <div>
+            <div class="intern-years">2 yrs</div>
+          </div>
+          <div>
+            <p class="intern-sub">Long-term Internship · Brand & Design</p>
+            <h3 class="intern-title">An Author’s Complete Creative Universe</h3>
+            <p class="intern-desc">
+              Over two years, I built an international author’s brand presence across web, social media, reels, and documentary-style animations. I also designed event creatives and supported the <strong style="color:var(--cloud)">India launch of her Penguin-published book</strong> with branding touchpoints crafted to reflect her story with intention and elegance.
+            </p>
+          </div>
+        </div>
+        <div class="intern-back">
+          <img src="risingbook.png" alt="Internship" />
+          <div class="intern-back-overlay">
+            <p class="intern-back-title">An Author’s Complete Creative Universe</p>
+            <p class="intern-back-note">2 Years · Brand Identity · Web · Events · Animation</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="section-pad">
+  <div class="wrap">
+    <!-- left col -->
+    <div class="rev">
+      <p class="section-label">03 — About</p>
+      <h2 class="section-title">Curious minds<br><em>make beautiful things</em></h2>
+      <p class="about-text">
+        I'm <strong>Radhika</strong> — B.Des student at <strong>Delhi Technological University</strong> who believes the finest solutions
+        emerge where <strong>empathy meets imagination</strong>. My work spans UI/UX, illustration, and XR, because I’m convinced the future of human interaction deserves to be beautiful.
+      </p>
+      <p class="about-text" style="margin-top:1rem;">
+        I approach every project as a problem worth falling in love with. Whether designing an app that connects
+        people to their pets, crafting AR experiences that preserve endangered culture, or helping an author's voice
+        reach a global audience — <strong>design, for me, is always an act of care</strong>.
+      </p>
+      <div class="traits" style="margin-top:2rem;">
+        <span class="trait"><span class="trait-ico">✈</span> Traveller</span>
+        <span class="trait"><span class="trait-ico">🏃</span> Physically active</span>
+        <span class="trait"><span class="trait-ico">🎬</span> Drama enthusiast</span>
+        <span class="trait"><span class="trait-ico">💙</span> Deeply feeling</span>
+        <span class="trait"><span class="trait-ico">🔭</span> Ever-curious</span>
+        <span class="trait"><span class="trait-ico">🌿</span> Exploratory spirit</span>
+      </div>
+    </div>
+    <!-- right col — profile photo -->
+    <div class="about-photo rev d1">
+      <img src="Aboutme.jpeg" alt="Radhika" />
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section-pad">
+  <div class="wrap" style="text-align:center;">
+    <div class="rev">
+      <p class="section-label" style="justify-content:center;display:flex;">04 — Contact</p>
+      <h2 class="contact-heading">Let's make something<br><em>extraordinary</em></h2>
+      <p class="contact-sub">Open to collaborations, opportunities, and beautiful conversations.</p>
+      <a href="mailto:radhikapal2004@gmail.com" class="contact-email">radhikapal2004@gmail.com</a>
+      <div class="socials">
+        <a href="https://www.behance.net/radhikacreates" target="_blank" class="social-link">Behance</a>
+        <a href="https://www.linkedin.com/in/radhika-singh-baghel/" target="_blank" class="social-link">LinkedIn</a>
+        <a href="https://www.instagram.com/radhika_illustrations/" target="_blank" class="social-link">Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Radhika · Designed with curiosity, crafted with care · All rights reserved.</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════
+   BUTTERFLY CURSOR
+═══════════════════════════════ */
+const bfly = document.getElementById('bfly');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let cx = mx, cy = my;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  spawnParticle(e.clientX, e.clientY);
+});
+
+(function tick() {
+  cx += (mx - cx) * 0.14;
+  cy += (my - cy) * 0.14;
+  bfly.style.left = cx + 'px';
+  bfly.style.top  = cy + 'px';
+  requestAnimationFrame(tick);
+})();
+
+/* ═══════════════════════════════
+   PARTICLE TRAIL
+═══════════════════════════════ */
+let pCount = 0;
+function spawnParticle(x, y) {
+  if (pCount > 25) return;
+  const p = document.createElement('div');
+  p.className = 'prt';
+  const sz   = Math.random() * 4 + 1.5;
+  const blue = Math.random() > 0.45;
+  const tx   = (Math.random() - 0.5) * 45 + 'px';
+  const ty   = -(Math.random() * 38 + 8) + 'px';
+  const dur  = (Math.random() * 0.5 + 0.55) + 's';
+  const clr  = blue ? `hsl(${200 + Math.random()*20},80%,72%)` : `hsl(200,40%,90%)`;
+  p.style.cssText = `
+    left:${x}px; top:${y}px;
+    width:${sz}px; height:${sz}px;
+    background:${clr};
+    box-shadow:0 0 ${sz*2.5}px ${clr};
+    --tx:${tx}; --ty:${ty}; --d:${dur};
+  `;
+  document.body.appendChild(p);
+  pCount++;
+  p.addEventListener('animationend', () => { p.remove(); pCount--; });
+}
+
+/* ═══════════════════════════════
+   STARFIELD CANVAS
+═══════════════════════════════ */
+const cvs = document.getElementById('star-canvas');
+const ctx = cvs.getContext('2d');
+let stars = [];
+
+function resize() {
+  cvs.width  = cvs.offsetWidth;
+  cvs.height = cvs.offsetHeight;
+  makeStars();
+}
+
+function makeStars() {
+  stars = [];
+  const n = Math.floor(cvs.width * cvs.height / 2800);
+  for (let i = 0; i < n; i++) {
+    stars.push({
+      x: Math.random() * cvs.width,
+      y: Math.random() * cvs.height,
+      r: Math.random() * 1.4 + 0.25,
+      a: Math.random(),
+      spd: Math.random() * 0.018 + 0.004,
+      dir: Math.random() > 0.5 ? 1 : -1,
+      glow: Math.random() > 0.82,
+    });
+  }
+}
+
+function drawStars() {
+  // deep navy gradient bg
+  const g = ctx.createLinearGradient(0, 0, 0, cvs.height);
+  g.addColorStop(0,   '#010912');
+  g.addColorStop(0.5, '#040e20');
+  g.addColorStop(1,   '#020810');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+  // subtle nebula glow in upper area
+  const nb = ctx.createRadialGradient(cvs.width*0.65, cvs.height*0.28, 0, cvs.width*0.65, cvs.height*0.28, cvs.width*0.3);
+  nb.addColorStop(0, 'rgba(30,70,140,0.12)');
+  nb.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = nb;
+  ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+  // second nebula hint
+  const nb2 = ctx.createRadialGradient(cvs.width*0.25, cvs.height*0.6, 0, cvs.width*0.25, cvs.height*0.6, cvs.width*0.22);
+  nb2.addColorStop(0, 'rgba(20,50,100,0.09)');
+  nb2.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = nb2;
+  ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+  stars.forEach(s => {
+    s.a += s.spd * s.dir;
+    if (s.a > 1 || s.a < 0.08) s.dir *= -1;
+    ctx.save();
+    ctx.globalAlpha = s.a;
+    if (s.glow) {
+      ctx.shadowBlur  = 9;
+      ctx.shadowColor = 'rgba(75,168,216,0.9)';
+      ctx.fillStyle   = '#b0dcf5';
+    } else {
+      ctx.shadowBlur  = 3;
+      ctx.shadowColor = 'rgba(200,226,255,0.6)';
+      ctx.fillStyle   = '#cce2ff';
+    }
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+resize();
+drawStars();
+window.addEventListener('resize', resize);
+
+/* ═══════════════════════════════
+   SCROLL REVEALS
+═══════════════════════════════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.rev').forEach(el => io.observe(el));
+
+/* ═══════════════════════════════
+   NAV SCROLL STATE
+═══════════════════════════════ */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('solid', window.scrollY > 60);
+});
+
+/* ═══════════════════════════════
+   HOLD-TO-FLIP (mobile touch)
+═══════════════════════════════ */
+if ('ontouchstart' in window) {
+  document.querySelectorAll('.ach-card').forEach(card => {
+    let holdTimer = null;
+    let wasHeld = false;
+
+    card.addEventListener('touchstart', function() {
+      wasHeld = false;
+      holdTimer = setTimeout(function() {
+        wasHeld = true;
+        card.classList.add('tapped');
+      }, 350);
+    }, { passive: true });
+
+    card.addEventListener('touchend', function() {
+      clearTimeout(holdTimer);
+      if (wasHeld) {
+        card.classList.remove('tapped');
+        wasHeld = false;
+      }
+    });
+
+    card.addEventListener('touchcancel', function() {
+      clearTimeout(holdTimer);
+      card.classList.remove('tapped');
+      wasHeld = false;
+    });
+  });
+
+  const internBlock = document.querySelector('.intern-block');
+  if (internBlock) {
+    let holdTimer = null;
+    let wasHeld = false;
+
+    internBlock.addEventListener('touchstart', function() {
+      wasHeld = false;
+      holdTimer = setTimeout(function() {
+        wasHeld = true;
+        internBlock.classList.add('tapped');
+      }, 350);
+    }, { passive: true });
+
+    internBlock.addEventListener('touchend', function() {
+      clearTimeout(holdTimer);
+      if (wasHeld) {
+        internBlock.classList.remove('tapped');
+        wasHeld = false;
+      }
+    });
+
+    internBlock.addEventListener('touchcancel', function() {
+      clearTimeout(holdTimer);
+      internBlock.classList.remove('tapped');
+      wasHeld = false;
+    });
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faces of the North-East — Case Study · Radhika</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Sora:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:#010912; --bg1:#040f1e; --card:#0b1d38; --card2:#0d2244;
+      --acc:#4ba8d8; --acc2:#7ecae3; --acc3:#2675a8;
+      --cloud:#eef5ff; --dim:#a8c4df; --faint:#607a94;
+      --warm:#b47842; --warm-dim:#7a4e28;
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Sora',system-ui,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--cloud);font-family:var(--sans);font-weight:300;line-height:1.75;overflow-x:hidden;}
+
+    /* ── NAV (north-east2) ──────────────────────────────── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.3rem 5rem;background:rgba(1,9,18,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(75,168,216,0.08);}
+    .logo{font-family:var(--serif);font-style:italic;font-size:1.45rem;color:var(--cloud);text-decoration:none;}
+    .logo span{color:var(--acc2);}
+    .back{display:flex;align-items:center;gap:0.5rem;color:var(--dim);text-decoration:none;font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;transition:color 0.3s;}
+    .back:hover{color:var(--acc2);}
+    .back svg{transition:transform 0.3s;}
+    .back:hover svg{transform:translateX(-3px);}
+
+    /* ── HERO / THUMBNAIL (north-east2) ─────────────────── */
+    .hero{margin-top:60px;position:relative;width:100%;height:90vh;min-height:560px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a0c06 0%,#2e1608 40%,#071428 100%);}
+    .hero-bg::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(180,120,60,0.04) 1px,transparent 1px);background-size:40px 40px;}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(1,9,18,0.97) 0%,rgba(1,9,18,0.6) 35%,rgba(1,9,18,0.15) 70%,rgba(1,9,18,0.05) 100%);}
+    .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+    .hero-content{position:relative;z-index:2;padding:0 7rem 5.5rem;max-width:1280px;}
+    .hero-tag{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:#8B4513;display:block;margin-bottom:1.5rem;opacity:0;animation:rise 0.8s ease forwards 0.2s;}
+    .hero-h1{font-family:var(--serif);font-size:clamp(3.2rem,8vw,7.5rem);font-weight:300;line-height:0.9;letter-spacing:-0.025em;color:var(--cloud);opacity:0;animation:rise 1s ease forwards 0.45s;}
+    .hero-h1 em{font-style:italic;color:var(--acc2);}
+    .hero-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2vw,1.3rem);color:var(--dim);margin-top:1.3rem;max-width:680px;opacity:0;animation:rise 0.9s ease forwards 0.7s;}
+    @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── META STRIP (north-east2) ───────────────────────── */
+    .meta{display:flex;flex-wrap:wrap;border-top:1px solid rgba(75,168,216,0.12);border-bottom:1px solid rgba(75,168,216,0.12);background:rgba(4,15,30,0.65);backdrop-filter:blur(10px);}
+    .meta-col{flex:1;min-width:150px;padding:1.7rem 2.4rem;border-right:1px solid rgba(75,168,216,0.09);}
+    .meta-col:last-child{border-right:none;}
+    .ml{font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--acc);margin-bottom:0.35rem;}
+    .mv{font-size:0.83rem;color:var(--dim);line-height:1.4;}
+
+    /* ── LAYOUT WRAPPERS ────────────────────────────────── */
+    .wrap{max-width:900px;margin:0 auto;padding:0 3rem;}
+    .wrap-wide{max-width:1100px;margin:0 auto;padding:0 3rem;}
+
+    /* ── SECTION SHELL ──────────────────────────────────── */
+    .cs-section{padding:5.5rem 0;border-top:1px solid rgba(75,168,216,0.07);}
+    .cs-label{font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--acc);margin-bottom:0.7rem;}
+    .cs-heading{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;line-height:1.1;color:var(--cloud);margin-bottom:1.6rem;}
+    .cs-heading em{font-style:italic;color:var(--acc2);}
+    .cs-body{font-size:0.92rem;color:var(--dim);line-height:1.9;max-width:680px;}
+    .cs-body strong{color:var(--cloud);font-weight:500;}
+
+    /* ── TWO COL (overview) ─────────────────────────────── */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+
+    /* ── GAP CARDS (problem) ────────────────────────────── */
+    .gap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:2rem;}
+    .gap-card{background:var(--card);border:1px solid rgba(75,168,216,0.1);border-radius:12px;padding:1.6rem;transition:border-color 0.3s;}
+    .gap-card:hover{border-color:rgba(180,120,66,0.3);}
+    .gap-icon{font-size:1.5rem;margin-bottom:0.7rem;}
+    .gap-title{font-size:0.82rem;font-weight:500;color:var(--cloud);margin-bottom:0.35rem;}
+    .gap-desc{font-size:0.77rem;color:var(--dim);line-height:1.65;}
+
+    /* ── DESIGN PROCESS — phase cards (north-east2) ─────── */
+    .sh{display:flex;gap:3.5rem;align-items:flex-start;margin-bottom:4.5rem;}
+    .sn{font-family:var(--serif);font-size:8rem;font-weight:300;line-height:1;color:rgba(75,168,216,0.1);flex-shrink:0;letter-spacing:-0.05em;user-select:none;margin-top:-0.5rem;}
+    .se{font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--acc);margin-bottom:0.8rem;}
+    .st{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.08;color:var(--cloud);}
+    .st em{font-style:italic;color:var(--acc2);}
+    .bt{font-size:0.93rem;color:var(--dim);line-height:1.95;max-width:640px;}
+    .tc3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;}
+    .phase-card{padding:2rem;background:rgba(11,29,56,0.5);border:1px solid rgba(75,168,216,0.1);border-radius:12px;border-top:2px solid rgba(75,168,216,0.38);}
+    .phase-card .pe{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--acc);margin-bottom:0.55rem;}
+    .phase-card .ph{font-family:var(--serif);font-size:1.3rem;color:var(--cloud);margin-bottom:0.6rem;}
+    .phase-card .pd{font-size:0.77rem;color:var(--dim);line-height:1.7;}
+
+    /* ── LENS CARDS (north-east1 warm accent) ───────────── */
+    .lens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;align-items:stretch;}
+    .lens-card{border-radius:14px;position:relative;height:500px;perspective:1200px;cursor:pointer;}
+    .lens-num{font-family:var(--serif);font-size:3rem;font-weight:300;color:rgba(180,120,66,0.2);line-height:1;margin-bottom:0.5rem;}
+    .lens-name{font-family:var(--serif);font-size:1.35rem;color:var(--cloud);margin-bottom:0.5rem;}
+    .lens-sub{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm);margin-bottom:1rem;}
+    .lens-desc{font-size:0.78rem;color:var(--dim);line-height:1.7;}
+    .lens-interactions{margin-top:1.1rem;}
+    .interaction-tag{display:inline-block;font-size:0.62rem;letter-spacing:0.08em;background:rgba(75,168,216,0.08);border:1px solid rgba(75,168,216,0.15);border-radius:4px;padding:0.18rem 0.55rem;color:var(--acc2);margin:0.18rem 0.1rem;}
+
+    /* ── FLIP CARD SYSTEM ───────────────────────────────── */
+    .flip-inner{position:relative;width:100%;height:500px;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(0.4,0,0.2,1);border-radius:14px;}
+    .lens-card:hover .flip-inner{transform:rotateY(180deg);}
+    .flip-front,.flip-back{position:absolute;top:0;left:0;width:100%;height:500px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;overflow:hidden;}
+    .flip-front{background:var(--card);border:1px solid rgba(75,168,216,0.12);display:flex;flex-direction:column;justify-content:flex-start;padding:2rem;}
+    .flip-front::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--warm),transparent);}
+    .flip-hint{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);margin-top:auto;padding-top:1rem;opacity:0.8;}
+    .flip-back{transform:rotateY(180deg);background:#000;display:flex;flex-direction:column;justify-content:flex-end;}
+    .flip-back video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .flip-back-overlay{position:relative;z-index:1;padding:1.5rem 2rem;background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 100%);}
+    .flip-back-overlay .lens-name{font-size:1.1rem;margin-bottom:0.3rem;}
+    .flip-back-overlay .flip-hint{color:rgba(200,230,255,0.7);margin-top:0;padding-top:0;}
+
+    /* ── TOOLS (north-east1) ────────────────────────────── */
+    .tool-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;}
+    .tool-chip{display:flex;align-items:center;gap:0.5rem;padding:0.7rem 1.2rem;background:var(--card);border:1px solid rgba(75,168,216,0.12);border-radius:10px;font-size:0.78rem;color:var(--dim);transition:all 0.3s;}
+    .tool-chip:hover{border-color:rgba(75,168,216,0.28);color:var(--cloud);}
+    .tool-chip span{font-size:1.1rem;}
+
+    /* ── CAPTION ────────────────────────────────────────── */
+    .cap{padding:0.9rem 7rem;font-size:0.68rem;color:var(--faint);letter-spacing:0.07em;border-bottom:1px solid rgba(75,168,216,0.07);}
+
+    /* ── FUTURE SCOPE (north-east1) ─────────────────────── */
+    .future-list{margin-top:1.5rem;display:flex;flex-direction:column;gap:0.8rem;}
+    .future-item{display:flex;gap:0.8rem;align-items:flex-start;font-size:0.84rem;color:var(--dim);}
+    .future-item::before{content:'✦';color:var(--acc);flex-shrink:0;margin-top:0.1rem;}
+
+    /* ── REFLECTION / TAKEAWAY (north-east2) ────────────── */
+    .takeaway{padding:6rem 7rem;text-align:center;background:linear-gradient(135deg,rgba(11,29,56,0.75),rgba(4,15,30,0.95));border-top:1px solid rgba(75,168,216,0.1);border-bottom:1px solid rgba(75,168,216,0.1);}
+    .takeaway p{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3vw,2.4rem);color:var(--cloud);line-height:1.45;max-width:800px;margin:0 auto;}
+    .takeaway p em{font-style:italic;color:var(--acc2);}
+    .takeaway cite{display:block;margin-top:1.4rem;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--acc);font-style:normal;}
+
+    /* ── BACK CTA ────────────────────────────────────────── */
+    .back-cta{text-align:center;padding:5rem 0 6rem;}
+    .back-btn{display:inline-flex;align-items:center;gap:0.6rem;padding:0.9rem 2.2rem;border:1px solid rgba(75,168,216,0.35);border-radius:100px;color:var(--acc2);text-decoration:none;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s;}
+    .back-btn:hover{background:rgba(75,168,216,0.1);border-color:var(--acc2);}
+
+    footer{text-align:center;padding:2rem;font-size:0.63rem;color:var(--faint);letter-spacing:0.08em;border-top:1px solid rgba(75,168,216,0.07);}
+
+    /* ── REVEAL ANIMATION ───────────────────────────────── */
+    .r{opacity:0;transform:translateY(26px);transition:opacity 0.85s ease,transform 0.85s ease;}
+    .r.in{opacity:1;transform:translateY(0);}
+    .r.d1{transition-delay:0.1s;}.r.d2{transition-delay:0.2s;}.r.d3{transition-delay:0.3s;}
+
+    /* ── VIDEO DEMO FLIP CARDS ──────────────────────────── */
+    .demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;}
+    .flip-card{height:500px;perspective:1200px;cursor:pointer;}
+    .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(0.4,0,0.2,1);border-radius:14px;}
+    .flip-card:hover .flip-inner{transform:rotateY(180deg);}
+    .flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;overflow:hidden;}
+    .flip-front{background:var(--card);border:1px solid rgba(75,168,216,0.12);display:flex;flex-direction:column;justify-content:flex-end;padding:2rem;position:relative;}
+    .flip-front::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--warm),transparent);}
+    .flip-front-num{font-family:var(--serif);font-size:6rem;font-weight:300;color:rgba(180,120,66,0.1);position:absolute;top:1rem;left:1.5rem;line-height:1;user-select:none;}
+    .flip-hint{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);margin-top:0.6rem;opacity:0.8;}
+    .flip-back{transform:rotateY(180deg);background:#000;display:flex;flex-direction:column;justify-content:flex-end;}
+    .flip-back video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+    .flip-back-overlay{position:relative;z-index:1;padding:1.5rem 2rem;background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 100%);}
+    .flip-back-overlay .lens-name{font-size:1.1rem;margin-bottom:0.3rem;}
+    .flip-back-overlay .flip-hint{color:rgba(200,230,255,0.7);}
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media(max-width:900px){
+      nav{padding:1.2rem 1.5rem;}
+      .hero-content{padding:0 2rem 4rem;}
+      .wrap,.wrap-wide{padding:0 1.5rem;}
+      .two-col,.gap-grid,.lens-grid,.tc3{grid-template-columns:1fr;}
+      .meta-col{min-width:50%;border-right:none;border-bottom:1px solid rgba(75,168,216,0.08);}
+      .sh{gap:1.5rem;}
+      .sn{font-size:5rem;}
+      /* lens cards — taller to fit all content, tighter internals */
+      .lens-card{height:480px;}.flip-inner{height:480px;}.flip-front,.flip-back{height:480px;}
+      .flip-front{padding:1.5rem;}
+      .lens-num{font-size:2rem;margin-bottom:0.3rem;}
+      .lens-name{font-size:1.15rem;margin-bottom:0.3rem;}
+      .lens-sub{font-size:0.65rem;margin-bottom:0.65rem;}
+      .lens-desc{font-size:0.75rem;line-height:1.6;}
+      .lens-interactions{margin-top:0.7rem;}
+      .flip-hint{display:none;}
+
+      /* full-bleed images — show completely on mobile */
+      .bleed-img{height:auto !important;overflow:visible !important;}
+      .bleed-img img{height:auto !important;object-fit:unset !important;width:100% !important;}
+      .cap{padding-left:1.5rem;padding-right:1.5rem;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="index.html" class="logo">Radhika</a>
+  <a href="index.html#projects" class="back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Work
+  </a>
+</nav>
+
+<!-- ═══ HERO / THUMBNAIL (north-east2) ═══
+     To add your cover image:
+     1. Save as northeast-cover.jpg in the same folder
+     2. Remove <div class="hero-bg"></div>
+     3. Uncomment the <img> tag below
+-->
+<div class="hero">
+  <div class="hero-bg"></div>
+ <img class="hero-img" src="northeast-cover.jpg" alt="Faces of the North-East">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-tag">AR Design · Cultural Heritage · Lens Studio · Face &amp; Hand Tracking</span>
+    <h1 class="hero-h1">Faces of the<br><em>North-East.</em></h1>
+    <p class="hero-sub">Spreading cultural awareness through fun and interactive Augmented Reality — turning heritage into an experience you can step inside.</p>
+  </div>
+</div>
+
+<!-- ═══ META STRIP (north-east2) ═══ -->
+<div class="meta">
+  <div class="meta-col"><p class="ml">Year</p><p class="mv">2025</p></div>
+  <div class="meta-col"><p class="ml">Duration</p><p class="mv">Academic Project</p></div>
+  <div class="meta-col"><p class="ml">Project Type</p><p class="mv">AR Lens Design &amp;<br>Cultural Research</p></div>
+  <div class="meta-col"><p class="ml">Platform</p><p class="mv">Snapchat<br>Lens Studio</p></div>
+  <div class="meta-col"><p class="ml">Role</p><p class="mv">Solo Designer &amp;<br>AR Developer</p></div>
+  <div class="meta-col"><p class="ml">Tools</p><p class="mv">Lens Studio · Blender<br>Photoshop · Premiere Pro</p></div>
+</div>
+
+<!-- ═══ OVERVIEW (north-east1) ═══ -->
+<section class="cs-section">
+  <div class="wrap">
+    <div class="two-col r">
+      <div>
+        <p class="cs-label">Overview</p>
+        <h2 class="cs-heading">Culture as an <em>experience,<br>not a textbook.</em></h2>
+      </div>
+      <div>
+        <p class="cs-body">North-East India holds rich tribal traditions, endangered crafts, and vibrant festivals, yet remains widely<strong> misunderstood and underrepresented.</strong> This project transforms Naga cultural heritage into immersive Snapchat AR lenses designed to make these stories <strong>interactive, shareable, </strong>and more visible to younger audiences.</p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THREE LENSES (north-east1 — warm accent lens-cards) ═══ -->
+<section class="cs-section">
+  <div class="wrap-wide">
+    <p class="cs-label r">The Three Lenses</p>
+    <h2 class="cs-heading r">Three elements.<br><em>Three stories alive.</em></h2>
+    <div class="lens-grid r">
+
+      <!-- KONYAK HEADHUNTER -->
+      <div class="lens-card" onclick="window.open('https://lens.snap.com/experience/32b8875a-9ba0-4792-b3c7-25ea3f8903fd','_blank')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="lens-num">01</div>
+            <p class="lens-name">Konyak Headhunter</p>
+            <p class="lens-sub">Endangered Culture · Face Tracking</p>
+            <p class="lens-desc">The Konyak tattoo tradition is disappearing — this lens digitally preserves it. Face-tracked tribal tattoo overlay, skull display stand background, and log drum music triggered by opening your mouth.</p>
+            <div class="lens-interactions">
+              <span class="interaction-tag">Face Tracking</span>
+              <span class="interaction-tag">Mouth-Open → Music</span>
+              <span class="interaction-tag">Tap to Learn</span>
+            </div>
+            <p class="flip-hint">Hover to preview · Click to try →</p>
+          </div>
+          <div class="flip-back">
+            <video src="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto/f_auto/v1778516972/Headhunter_wrpq09.mp4" loop muted playsinline></video>
+            <div class="flip-back-overlay">
+              <p class="lens-name">Konyak Headhunter</p>
+              <p class="flip-hint">Click to try on Snapchat →</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HORNBILL FESTIVAL -->
+      <div class="lens-card" onclick="window.open('https://lens.snap.com/experience/1b8683e3-6646-4115-bc3d-0c6511b53982','_blank')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="lens-num">02</div>
+            <p class="lens-name">Hornbill Festival</p>
+            <p class="lens-sub">Festival of Festivals · Face Tracking</p>
+            <p class="lens-desc">Nagaland's Hornbill Festival — the most iconic celebration of Naga unity — comes alive on your face. A bamboo cone hat tracked to your head, sparkle effects, and Hornbill ceremony music when you open your mouth.</p>
+            <div class="lens-interactions">
+              <span class="interaction-tag">Face Tracking</span>
+              <span class="interaction-tag">Sparkle Effect</span>
+              <span class="interaction-tag">Mouth-Open → Song</span>
+            </div>
+            <p class="flip-hint">Hover to preview · Click to try →</p>
+          </div>
+          <div class="flip-back">
+            <video src="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto/f_auto/v1778516965/Hornbill_lstg89.mp4" loop muted playsinline></video>
+            <div class="flip-back-overlay">
+              <p class="lens-name">Hornbill Festival</p>
+              <p class="flip-hint">Click to try on Snapchat →</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TATI INSTRUMENT -->
+      <div class="lens-card" onclick="window.open('https://lens.snap.com/experience/0b061035-09aa-4f86-8129-632ed7ed4368','_blank')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="lens-num">03</div>
+            <p class="lens-name">Tati Instrument</p>
+            <p class="lens-sub">Traditional Folk · Hand Tracking</p>
+            <p class="lens-desc">The Tati (also called Lubo or Libuh) is a single-stringed instrument used by Angami, Chakhesang, and Mao Nagas. Grab it from the air with a hand gesture — and Angami folk music begins to play.</p>
+            <div class="lens-interactions">
+              <span class="interaction-tag">Hand Tracking</span>
+              <span class="interaction-tag">Grab Gesture → Music</span>
+              <span class="interaction-tag">Tap to Learn</span>
+            </div>
+            <p class="flip-hint">Hover to preview · Click to try →</p>
+          </div>
+          <div class="flip-back">
+            <video src="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto/f_auto/v1778516967/Tati_j4d6lw.mp4" loop muted playsinline></video>
+            <div class="flip-back-overlay">
+              <p class="lens-name">Tati Instrument</p>
+              <p class="flip-hint">Click to try on Snapchat →</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THE PROBLEM (north-east1) ═══ -->
+<section class="cs-section">
+  <div class="wrap-wide">
+    <p class="cs-label r">The Problem</p>
+    <h2 class="cs-heading r">Rich in culture.<br><em>Rarely seen beyond stereotypes.</em></h2>
+    <p class="cs-body r" style="white-space:nowrap;max-width:none;">Research revealed several reasons why North-East India remains unfamiliar to much of the country.</p>
+    <div class="gap-grid">
+      <div class="gap-card r d1">
+        <div class="gap-icon">🌏</div>
+        <p class="gap-title">Geographic Isolation</p>
+        <p class="gap-desc">Connected to the rest of India through the narrow 17–22 km-wide Siliguri Corridor, limiting travel and cultural exchange.</p>
+      </div>
+      <div class="gap-card r d2">
+        <div class="gap-icon">📺</div>
+        <p class="gap-title">Media Misrepresentation</p>
+        <p class="gap-desc">Mainstream media often portrays the North-East through conflict or stereotypes, overlooking its everyday cultural richness.</p>
+      </div>
+      <div class="gap-card r d1">
+        <div class="gap-icon">📉</div>
+        <p class="gap-title">Low National Visibility</p>
+        <p class="gap-desc">The eight North-Eastern states together make up less than 4% of India’s population, limiting political attention and cultural visibility.</p>
+      </div>
+      <div class="gap-card r d2">
+        <div class="gap-icon">📂</div>
+        <p class="gap-title">Lack of Documentation</p>
+        <p class="gap-desc">Authentic visuals of tribal tattoos, instruments, and traditional attire are scarce online, limiting cultural awareness and education.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESEARCH GAP (north-east1) ═══ -->
+<section class="cs-section">
+  <div class="wrap-wide">
+    <p class="cs-label r">Research Gap</p>
+    <h2 class="cs-heading r">AR for culture exists.<br><em>But not like this.</em></h2>
+    <p class="cs-body r" style="max-width:none;">Most AR heritage projects focus on monuments and static experiences where users only observe. There was no youth-oriented AR experience using face and hand tracking to embody cultural elements — creating a key design opportunity.</p>
+  </div>
+  <div class="bleed-img" style="margin-top:2.5rem;height:580px;overflow:hidden;">
+    <img src="North-East/Research%20gap.png" alt="Research Gap — AR Cultural Heritage" style="width:100%;height:100%;object-fit:cover;display:block;" />
+  </div>
+  <p class="cap r">Research Gap — existing AR cultural experiences were passive, not participatory</p>
+</section>
+
+<!-- ═══ DESIGN PROCESS (north-east2 — phase cards with numbered header) ═══ -->
+<section class="cs-section">
+  <div class="wrap-wide">
+    <div class="sh r">
+      <div class="sn">03</div>
+      <div>
+        <p class="se">Design Process</p>
+        <h2 class="st">From curiosity<br><em>to creation.</em></h2>
+      </div>
+    </div>
+    <p class="bt r" style="max-width:none;">The project followed the Double Diamond process — exploring all 8 North-Eastern states before narrowing down to Nagaland for its visual identity and cultural depth. Each lens was selected for its uniqueness, cultural significance, and authentic references.</p>
+    <div class="tc3" style="margin-top:3rem;">
+      <div class="phase-card r d1">
+        <p class="pe">Diverge →</p>
+        <p class="ph">Cultural Research</p>
+        <p class="pd">Studied all 8 North-Eastern states, documenting festivals, tattoos, instruments, attire, and rituals across Nagaland.</p>
+      </div>
+      <div class="phase-card r d2">
+        <p class="pe">Converge →</p>
+        <p class="ph">Narrow &amp; Select</p>
+        <p class="pd">Selected three cultural elements — one endangered (Konyak tattoos), one iconic (Hornbill), and one everyday tradition (Tati).</p>
+      </div>
+      <div class="phase-card r d3">
+        <p class="pe">Build →</p>
+        <p class="ph">Create &amp; Test</p>
+        <p class="pd">Built 3D models, tribal patterns, and AR interactions using Blender, Photoshop, Premiere Pro, Lens Studio, and JavaScript.</p>
+      </div>
+    </div>
+  </div>
+  <div class="bleed-img" style="margin-top:2.5rem;height:420px;overflow:hidden;">
+    <img src="North-East/Design%20process.png" alt="Design Process" style="width:100%;height:100%;object-fit:cover;display:block;" />
+  </div>
+  <p class="cap r">Design Process — Double Diamond · Diverge across 8 states · Converge on Nagaland</p>
+</section>
+
+<!-- ═══ TOOLS USED (north-east1) ═══ -->
+<section class="cs-section">
+  <div class="wrap">
+    <p class="cs-label r">Tools Used</p>
+    <h2 class="cs-heading r"><em>The craft behind the magic.</em></h2>
+    <div class="tool-row r">
+      <div class="tool-chip"><span>🎮</span> Lens Studio</div>
+      <div class="tool-chip"><span>🧊</span> Blender 3D</div>
+      <div class="tool-chip"><span>🎨</span> Photoshop</div>
+      <div class="tool-chip"><span>🎵</span> Premiere Pro</div>
+      <div class="tool-chip"><span>⚙️</span> JavaScript</div>
+    </div>
+  </div>
+  <div class="bleed-img" style="margin-top:2.5rem;height:420px;overflow:hidden;">
+    <img src="North-East/Tools%20Used.png" alt="Tools Used" style="width:100%;height:100%;object-fit:cover;display:block;" />
+  </div>
+  <p class="cap r">Tools Used — Lens Studio · Blender · Photoshop · Premiere Pro · JavaScript</p>
+</section>
+
+<!-- ═══ REFLECTION (north-east1) ═══ -->
+<section class="cs-section">
+  <div class="wrap">
+    <p class="cs-label r">Reflection</p>
+    <h2 class="cs-heading r"><em>What designing for culture taught me.</em></h2>
+    <p class="cs-body r">This project began with a question — <em>how can I use AR in an impactful way?</em> — and became one of the most meaningful projects I’ve designed.</p>
+    <p class="cs-body r" style="margin-top:1rem;">The biggest challenge was the <strong>lack of authentic documentation,</strong>which reinforced the importance of preserving culture through accessible digital experiences.</p>
+  </div>
+</section>
+
+<!-- TAKEAWAY (north-east2 style — full bleed) -->
+<div class="takeaway r">
+  <p>"AR is not just a medium for entertainment.<br>It's a tool for <em>remembering who we are.</em>"</p>
+  <cite>Faces of the North-East · Radhika · Delhi Technological University</cite>
+</div>
+
+<!-- ═══ BACK CTA ═══ -->
+<div class="back-cta">
+  <a href="index.html#projects" class="back-btn">← Back to All Work</a>
+</div>
+
+<footer>© 2026 Radhika · All rights reserved.</footer>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+/* ── VIDEO FLIP CARDS ── */
+document.querySelectorAll('.lens-card').forEach(card => {
+  const video = card.querySelector('video');
+  card.addEventListener('mouseenter', () => {
+    video.currentTime = 0;
+    video.muted = false;
+    video.play().catch(() => { video.muted = true; video.play(); });
+  });
+  card.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+    video.muted = true;
+  });
+});
+</script>
+</body>
+</html>

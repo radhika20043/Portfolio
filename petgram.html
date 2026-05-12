@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petgram — Case Study · Radhika</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Sora:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#010912; --bg1:#040f1e; --card:#0b1d38;
+      --acc:#4ba8d8; --acc2:#7ecae3; --acc3:#2675a8;
+      --cloud:#eef5ff; --dim:#a8c4df; --faint:#607a94;
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Sora',system-ui,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--cloud);font-family:var(--sans);font-weight:300;line-height:1.75;overflow-x:hidden;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.3rem 5rem;background:rgba(1,9,18,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(75,168,216,0.08);}
+    .logo{font-family:var(--serif);font-style:italic;font-size:1.45rem;color:var(--cloud);text-decoration:none;}
+    .logo span{color:var(--acc2);}
+    .back{display:flex;align-items:center;gap:0.5rem;color:var(--dim);text-decoration:none;font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;transition:color 0.3s;}
+    .back:hover{color:var(--acc2);}
+    .back svg{transition:transform 0.3s;}
+    .back:hover svg{transform:translateX(-3px);}
+
+    /* HERO */
+    .hero{margin-top:60px;position:relative;width:100%;height:90vh;min-height:560px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#081c0e 0%,#122a18 40%,#071428 100%);}
+    /* placeholder grid pattern */
+    .hero-bg::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(75,168,216,0.04) 1px,transparent 1px);background-size:40px 40px;}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(1,9,18,0.97) 0%,rgba(1,9,18,0.6) 35%,rgba(1,9,18,0.15) 70%,rgba(1,9,18,0.05) 100%);}
+    .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center right;display:block;}
+    .hero-content{position:relative;z-index:2;padding:0 7rem 5.5rem;max-width:1280px;}
+    .hero-tag{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:#5aaf7e;display:block;margin-bottom:1.5rem;opacity:0;animation:rise 0.8s ease forwards 0.2s;}
+    .hero-h1{font-family:var(--serif);font-size:clamp(4rem,9vw,8.5rem);font-weight:300;line-height:0.88;letter-spacing:-0.025em;color:var(--cloud);opacity:0;animation:rise 1s ease forwards 0.45s;}
+    .hero-h1 em{font-style:italic;color:var(--acc2);}
+    .hero-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2vw,1.3rem);color:var(--dim);margin-top:1.3rem;max-width:680px;opacity:0;animation:rise 0.9s ease forwards 0.7s;}
+    @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+    /* META STRIP */
+    .meta{display:flex;flex-wrap:wrap;border-top:1px solid rgba(75,168,216,0.12);border-bottom:1px solid rgba(75,168,216,0.12);background:rgba(4,15,30,0.65);backdrop-filter:blur(10px);}
+    .meta-col{flex:1;min-width:150px;padding:1.7rem 2.4rem;border-right:1px solid rgba(75,168,216,0.09);}
+    .meta-col:last-child{border-right:none;}
+    .ml{font-size:0.58rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--acc);margin-bottom:0.35rem;}
+    .mv{font-size:0.83rem;color:var(--dim);line-height:1.4;}
+
+    /* LAYOUT */
+    .wrap{max-width:860px;margin:0 auto;padding:0 4rem;}
+    .wide{max-width:1160px;margin:0 auto;padding:0 7rem;}
+
+    /* FULL BLEED */
+    .bleed{width:100%;position:relative;overflow:hidden;background:var(--card);}
+    .bleed.tall{height:580px;}
+    .bleed.mid{height:420px;}
+    .bleed.short{height:300px;}
+    .bleed img{width:100%;height:100%;object-fit:cover;display:block;}
+    .bleed-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--faint);}
+    .bleed-ph svg{opacity:0.13;}
+    .bleed-ph span{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;}
+    .cap{padding:0.9rem 7rem;font-size:0.68rem;color:var(--faint);letter-spacing:0.07em;border-bottom:1px solid rgba(75,168,216,0.07);}
+
+    /* DUO / TRIO */
+    .duo{display:grid;grid-template-columns:1fr 1fr;}
+    .trio{display:grid;grid-template-columns:1fr 1fr 1fr;}
+    .cell{height:370px;overflow:hidden;background:var(--card);position:relative;}
+    .cell img{width:100%;height:100%;object-fit:cover;display:block;}
+    .cell .bleed-ph{position:absolute;inset:0;}
+
+    /* VIDEO CELLS */
+    .video-cell{cursor:pointer;}
+    .cell-video{width:100%;height:100%;object-fit:cover;display:block;}
+    .video-cell .play-hint{
+      position:absolute;top:2.4rem;left:50%;transform:translateX(-50%);
+      font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;
+      color:rgba(200,230,255,0.55);pointer-events:none;
+      transition:opacity 0.3s;
+    }
+    .video-cell:hover .play-hint{opacity:0;}
+
+    /* SECTIONS */
+    .sec{padding:8rem 0;}
+    .sec+.sec{border-top:1px solid rgba(75,168,216,0.07);}
+
+    /* Numbered header */
+    .sh{display:flex;gap:3.5rem;align-items:flex-start;margin-bottom:4.5rem;}
+    .sn{font-family:var(--serif);font-size:8rem;font-weight:300;line-height:1;color:rgba(75,168,216,0.1);flex-shrink:0;letter-spacing:-0.05em;user-select:none;margin-top:-0.5rem;}
+    .se{font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--acc);margin-bottom:0.8rem;}
+    .st{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.08;color:var(--cloud);}
+    .st em{font-style:italic;color:var(--acc2);}
+
+    /* body copy */
+    .bt{font-size:0.93rem;color:var(--dim);line-height:1.95;max-width:640px;}
+    .bt+.bt{margin-top:1rem;}
+    .bt strong{color:var(--cloud);font-weight:500;}
+
+    /* PULL QUOTE */
+    .pq{margin:4.5rem 0;padding:3rem 4.5rem;position:relative;border-left:2px solid var(--acc);}
+    .pq::before{content:'"';font-family:var(--serif);font-size:10rem;font-weight:300;line-height:0.65;color:rgba(75,168,216,0.1);position:absolute;top:1.8rem;left:1rem;}
+    .pq p{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2.4vw,1.7rem);color:var(--cloud);line-height:1.45;}
+    .pq cite{display:block;margin-top:1.1rem;font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--acc);font-style:normal;}
+
+    /* TWO COL */
+    .tc{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+    .tc3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+
+    /* OVERVIEW LABELS (north-east style) */
+    .cs-label{font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--acc);margin-bottom:0.7rem;}
+    .cs-heading{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;line-height:1.1;color:var(--cloud);margin-bottom:1.6rem;}
+    .cs-heading em{font-style:italic;color:var(--acc2);}
+    .cs-body{font-size:0.92rem;color:var(--dim);line-height:1.9;max-width:680px;}
+    .cs-body strong{color:var(--cloud);font-weight:500;}
+
+    /* STATS */
+    .stats{display:flex;gap:1.1rem;flex-wrap:wrap;margin:2.8rem 0;}
+    .stat{flex:1;min-width:120px;padding:1.7rem;background:rgba(11,29,56,0.55);border:1px solid rgba(75,168,216,0.12);border-radius:10px;text-align:center;}
+    .snum{font-family:var(--serif);font-size:3rem;font-weight:300;color:var(--acc2);line-height:1;}
+    .slbl{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-top:0.4rem;}
+
+    /* FEATURE LIST */
+    .flist{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;}
+    .flist li{display:flex;gap:1.2rem;align-items:flex-start;padding:1.4rem 1.7rem;background:rgba(11,29,56,0.5);border:1px solid rgba(75,168,216,0.09);border-radius:10px;}
+    .fi{font-size:1.25rem;flex-shrink:0;margin-top:0.1rem;}
+    .ft{font-size:0.86rem;font-weight:500;color:var(--cloud);margin-bottom:0.2rem;}
+    .fd{font-size:0.77rem;color:var(--dim);line-height:1.65;}
+    .slist{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.5rem;}
+    .slist li{display:flex;gap:1.2rem;align-items:flex-start;padding:1.6rem 1.8rem;background:rgba(11,29,56,0.5);border:1px solid rgba(75,168,216,0.09);border-radius:10px;}
+
+    /* PERSONA */
+    .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.8rem;}
+    .pers{background:rgba(11,29,56,0.6);border:1px solid rgba(75,168,216,0.1);border-radius:12px;padding:1.9rem;transition:border-color 0.3s,transform 0.3s;}
+    .pers:hover{border-color:rgba(75,168,216,0.28);transform:translateY(-3px);}
+    .pav{width:46px;height:46px;border-radius:50%;background:rgba(75,168,216,0.1);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem;}
+    .pn{font-family:var(--serif);font-size:1.2rem;color:var(--cloud);margin-bottom:0.15rem;}
+    .pr{font-size:0.63rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--acc);margin-bottom:0.9rem;}
+    .pb{font-size:0.77rem;color:var(--dim);line-height:1.7;}
+    .plbl{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-top:0.9rem;margin-bottom:0.2rem;}
+
+    /* PHASE CARDS */
+    .phase-card{padding:2rem;background:rgba(11,29,56,0.5);border:1px solid rgba(75,168,216,0.1);border-radius:12px;border-top:2px solid rgba(75,168,216,0.38);}
+    .phase-card .pe{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--acc);margin-bottom:0.55rem;}
+    .phase-card .ph{font-family:var(--serif);font-size:1.3rem;color:var(--cloud);margin-bottom:0.6rem;}
+    .phase-card .pd{font-size:0.77rem;color:var(--dim);line-height:1.7;}
+
+    /* TAKEAWAY */
+    .takeaway{padding:6rem 7rem;text-align:center;background:linear-gradient(135deg,rgba(11,29,56,0.75),rgba(4,15,30,0.95));border-top:1px solid rgba(75,168,216,0.1);border-bottom:1px solid rgba(75,168,216,0.1);}
+    .takeaway p{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3vw,2.4rem);color:var(--cloud);line-height:1.45;max-width:800px;margin:0 auto;}
+    .takeaway p em{font-style:italic;color:var(--acc2);}
+    .takeaway cite{display:block;margin-top:1.4rem;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--acc);font-style:normal;}
+
+    /* UP NEXT */
+    .upnext-wrap{display:block;text-decoration:none;}
+    .upnext{padding:5rem 7rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(75,168,216,0.12);transition:background 0.4s;}
+    .upnext:hover{background:rgba(11,29,56,0.45);}
+    .un-lbl{font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--acc);margin-bottom:0.9rem;}
+    .un-title{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2.5rem);font-weight:300;color:var(--cloud);}
+    .un-arrow{font-size:2.8rem;color:var(--acc2);transition:transform 0.35s;}
+    .upnext:hover .un-arrow{transform:translateX(10px);}
+
+    /* REVEAL */
+    .r{opacity:0;transform:translateY(26px);transition:opacity 0.85s ease,transform 0.85s ease;}
+    .r.in{opacity:1;transform:translateY(0);}
+    .r.d1{transition-delay:0.1s;}.r.d2{transition-delay:0.2s;}.r.d3{transition-delay:0.3s;}
+
+    footer{text-align:center;padding:2rem;font-size:0.63rem;color:var(--faint);letter-spacing:0.08em;}
+
+    @media(max-width:900px){
+      /* nav */
+      nav{padding:1.2rem 1.5rem;}
+
+      /* layout */
+      .hero-content,.wide,.cap{padding-left:1.5rem;padding-right:1.5rem;}
+      .wrap{padding:0 1.5rem;}
+      .sec{padding:5rem 0;}
+
+      /* grids */
+      .tc,.tc3,.pgrid,.duo,.trio,.slist,.flist,.two-col{grid-template-columns:1fr;}
+      /* override any inline grid-template-columns */
+      .tc3[style],.flist[style]{grid-template-columns:1fr !important;}
+
+      /* video trio cells — show full portrait video, no cropping */
+      .trio .cell{height:auto !important;overflow:visible;}
+      .trio .cell-video{width:100%;height:auto;object-fit:unset;display:block;}
+
+      /* meta strip */
+      .meta-col{min-width:50%;border-right:none;border-bottom:1px solid rgba(75,168,216,0.08);}
+
+      /* numbered heading */
+      .sh{gap:1.5rem;}
+      .sn{font-size:5rem;}
+
+      /* pull quote */
+      .pq{padding:2rem 1.8rem 2rem 2.8rem;}
+
+      /* takeaway / upnext */
+      .takeaway,.upnext{padding:3.5rem 1.5rem;}
+      .upnext{flex-direction:column;gap:2rem;align-items:flex-start;}
+
+      /* stats — replace huge side margins with small breathing room */
+      .stats{margin-left:1.5rem !important;margin-right:1.5rem !important;}
+
+      /* full-bleed images — show in full, no cropping */
+      .bleed.tall,.bleed.mid,.bleed.short{height:auto !important;overflow:visible !important;}
+      .bleed img{height:auto !important;object-fit:unset !important;}
+      .bleed .bleed-ph{display:none;}
+    }
+
+    @media(max-width:480px){
+      .trio .cell{height:auto !important;}
+      .hero-content,.wide,.cap{padding-left:1rem;padding-right:1rem;}
+    }
+
+    /* BACK CTA */
+    .back-cta{text-align:center;padding:5rem 0 6rem;}
+    .back-btn{display:inline-flex;align-items:center;gap:0.6rem;padding:0.9rem 2.2rem;border:1px solid rgba(75,168,216,0.35);border-radius:100px;color:var(--acc2);text-decoration:none;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s;}
+    .back-btn:hover{background:rgba(75,168,216,0.1);border-color:var(--acc2);}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Radhika</a>
+  <a href="index.html#projects" class="back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Work
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <img class="hero-img" src="petgram-cover.png" alt="Petgram — The app every pet lover needs" style="display:block;">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-tag">UI/UX · Mobile App · Design Thinking · HCD</span>
+    <h1 class="hero-h1">Petgram<em>.</em></h1>
+    <p class="hero-sub">Bridging emotional connection and real-world pet services in one app.</p>
+  </div>
+</div>
+
+<!-- META STRIP -->
+<div class="meta">
+  <div class="meta-col"><p class="ml">Year</p><p class="mv">2025</p></div>
+  <div class="meta-col"><p class="ml">Duration</p><p class="mv">Semester Project</p></div>
+  <div class="meta-col"><p class="ml">Project Type</p><p class="mv">UX Research &<br>Mobile App Design</p></div>
+  <div class="meta-col"><p class="ml">Methodology</p><p class="mv">Double Diamond + HCD</p></div>
+  <div class="meta-col"><p class="ml">Role</p><p class="mv">Lead Designer &<br>UX Researcher</p></div>
+  <div class="meta-col"><p class="ml">Tools</p><p class="mv">Figma · Google Forms<br>Miro</p></div>
+</div>
+
+<!-- ═══ OVERVIEW ═══ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="two-col r">
+      <div>
+        <p class="cs-label">Overview</p>
+        <h2 class="cs-heading">Pets are family.<br><em>Where is their platform?</em></h2>
+      </div>
+      <div>
+        <p class="cs-body">Petgram bridges the gap between emotional connection and practical pet services by bringing pet lovers, owners, and businesses into one unified experience.</p>
+        <p class="cs-body" style="margin-top:1rem;">In today’s world, pets are family, yet no single platform combines sharing, trusted services, adoption, and play together. <strong>Petgram is built to fill that gap.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIO SCREENS — videos hosted on Cloudinary -->
+<div class="trio r">
+  <div class="cell video-cell" style="height:720px;">
+    <video class="cell-video"
+      src="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto/f_auto/v1778515894/Homefeed_wkvb01.mp4"
+      muted loop playsinline preload="none"
+      poster="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto,so_0/v1778515894/Homefeed_wkvb01.jpg">
+    </video>
+    <span class="play-hint">Hover to play</span>
+  </div>
+  <div class="cell video-cell" style="height:720px;">
+    <video class="cell-video"
+      src="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto/f_auto/v1778516473/Adoption_gy6018.mp4"
+      muted loop playsinline preload="none"
+      poster="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto,so_0/v1778516473/Adoption_gy6018.jpg">
+    </video>
+    <span class="play-hint">Hover to play</span>
+  </div>
+  <div class="cell video-cell" style="height:720px;">
+    <video class="cell-video"
+      src="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto/f_auto/v1778515910/Services_pbxknb.mp4"
+      muted loop playsinline preload="none"
+      poster="https://res.cloudinary.com/dugrlwr0u/video/upload/q_auto,so_0/v1778515910/Services_pbxknb.jpg">
+    </video>
+    <span class="play-hint">Hover to play</span>
+  </div>
+</div>
+<p class="cap r">Home Feed · Adopt & Play · Services — the three core screens</p>
+
+<!-- ═══ 01 PROBLEM ═══ -->
+<section class="sec">
+  <div class="wide">
+    <div class="sh r">
+      <div class="sn">01</div>
+      <div>
+        <p class="se">The Problem</p>
+        <h2 class="st">A disconnected <em>pet</em> <br>community</h2>
+      </div>
+    </div>
+    <div class="r">
+      <p class="bt" style="max-width:100%;margin-bottom:2rem;">Despite the growing pet community, users still rely on scattered platforms for services, adoption, and interaction.</p>
+      <ul class="flist" style="grid-template-columns:repeat(3,1fr);margin-top:0;">
+        <li><span class="fi">📢</span><div><p class="ft">Business Gap</p><p class="fd">Pet businesses lack a focused platform to reach and grow their audience.</p></div></li>
+        <li><span class="fi">🐾</span><div><p class="ft">Adoption Gap</p><p class="fd">Adoption relies on scattered posts, with no transparent system to connect animals with the right adopters.</p></div></li>
+        <li><span class="fi">🤝</span><div><p class="ft">Interaction Gap</p><p class="fd">People who can’t own pets lack meaningful interaction, while owners need trusted temporary care.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ═══ 02 RESEARCH ═══ -->
+<section class="sec">
+  <div class="wide">
+    <div class="sh r">
+      <div class="sn">02</div>
+      <div>
+        <p class="se">Research & Empathy</p>
+        <h2 class="st">Listening<br><em>before designing.</em></h2>
+      </div>
+    </div>
+    <p class="bt" style="max-width:100%;margin-bottom:2rem;">Research surveys with pet lovers, owners, and businesses revealed three key user groups that shaped the product.</p>
+
+    <div class="pgrid">
+      <div class="pers r d1">
+        <div class="pav">👩‍🎓</div>
+        <p class="pn">Aditi</p><p class="pr">Aspiring Pet Lover · 21</p>
+        <p class="pb">College student in a hostel. Can’t own a pet, but deeply wants one</p>
+        <p class="plbl">Goal</p><p class="pb">→ Spend time with animals<br>→ Feel part of a pet community</p>
+        <p class="plbl">Pain</p><p class="pb">→ Can’t keep pets<br>→ No way to interact</p>
+      </div>
+      <div class="pers r d2">
+        <div class="pav">👨‍💻</div>
+        <p class="pn">Rohan</p><p class="pr">Pet Owner · 29</p>
+        <p class="pb">IT professional and pet owner seeking reliable care for his Golden Retriever.</p>
+        <p class="plbl">Goal</p><p class="pb">→ Keep his pet safe while away.<br>→ Find trusted services easily.</p>
+        <p class="plbl">Pain</p><p class="pb">→ Can’t verify quality of services<br>→ Limited time to research options</p>
+      </div>
+      <div class="pers r d3">
+        <div class="pav">☕</div>
+        <p class="pn">Meera</p><p class="pr">Pet Café Owner · 34</p>
+        <p class="pb">Pet café owner struggling to reach the right audience.</p>
+        <p class="plbl">Goal</p><p class="pb">→ Promote events and services<br>→ Reach the right audience.</p>
+        <p class="plbl">Pain</p><p class="pb">→ Poor visibility on generic platforms<br>→ Hard to target the right users</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SINGLE IMAGE — Empathy Map -->
+<div class="bleed mid r">
+  <img src="images/petgram-empathy-map.jpg" alt="Empathy Map" />
+</div>
+<p class="cap r">Key Findings from the Survey — Human Centered Design</p>
+
+
+<div class="stats r" style="margin-top:3.5rem;margin-left:16rem;margin-right:16rem;">
+      <div class="stat"><div class="snum">46%</div><div class="slbl">Currently own a pet</div></div>
+      <div class="stat"><div class="snum">69%</div><div class="slbl">Want to Interact with pets without ownership.</div></div>
+      <div class="stat"><div class="snum">92%</div><div class="slbl">Want to share and watch pet content</div></div>
+      <div class="stat"><div class="snum">85%</div><div class="slbl">Interested in adoption feature</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 03 PROCESS ═══ -->
+<section class="sec">
+  <div class="wide">
+    <div class="sh r">
+      <div class="sn">03</div>
+      <div>
+        <p class="se">Design Process</p>
+        <h2 class="st">Double Diamond,<br><em>applied with empathy.</em></h2>
+      </div>
+    </div>
+    <p class="bt" style="max-width:100%;margin-bottom:2rem;">The project balanced exploration and problem-solving across four stages to create a more human-centered pet experience.</p>
+    <div class="tc3" style="margin-top:3rem;grid-template-columns:repeat(4,1fr);">
+      <div class="phase-card r d1"><p class="pe">Phase 01</p><p class="ph">Discover</p><p class="pd">Conducted surveys and empathy mapping to understand key user groups and their needs.</p></div>
+      <div class="phase-card r d2"><p class="pe">Phase 02</p><p class="ph">Define</p><p class="pd">Identified key gaps in pet interaction, service discovery, adoption accessibility, and business visibility.</p></div>
+      <div class="phase-card r d3"><p class="pe">Phase 03</p><p class="ph">Develop</p><p class="pd">Created user flows, app structure, and six core features aligned with real user pain points.</p></div>
+      <div class="phase-card r d4"><p class="pe">Phase 04</p><p class="ph">Deliver</p><p class="pd">Designed a mobile experience focused on accessibility, connection, and community.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL BLEED — Sitemap / flow -->
+<div class="bleed mid r" style="height:480px;">
+  <img src="images/petgram-sitemap.jpg" alt="Information Architecture" />
+  <div class="bleed-ph"><svg width="60" height="60" viewBox="0 0 60 60" fill="none"><rect x="3" y="8" width="54" height="44" rx="5" stroke="#7ecae3" stroke-width="1.2"/><circle cx="17" cy="26" r="6" stroke="#7ecae3" stroke-width="1"/><path d="M3 42 L16 30 L26 38 L36 30 L57 46" stroke="#7ecae3" stroke-width="1.1" stroke-linecap="round"/></svg><span>Add petgram-sitemap.jpg — information architecture</span></div>
+</div>
+<p class="cap r">App sitemap —</p>
+
+<!-- ═══ 04 SOLUTION ═══ -->
+<section class="sec">
+  <div class="wide">
+    <div class="sh r">
+      <div class="sn">04</div>
+      <div>
+        <p class="se">The Solution</p>
+        <h2 class="st">Every feature answers<br><em>a real need.</em></h2>
+      </div>
+    </div>
+    <ul class="slist r">
+      <li><span class="fi">📸</span><div><p class="ft">Social Feed</p><p class="fd">Share pet photos, reels, and stories while connecting through likes, comments, and community highlights.</p></div></li>
+      <li><span class="fi">🗺</span><div><p class="ft">Discover (Nearby)</p><p class="fd">Interactive map for pet cafés, vets, grooming, and pet services with location-based filters.</p></div></li>
+      <li><span class="fi">🐕</span><div><p class="ft">Adopt, Sitter & Play</p><p class="fd">Verified shelters, play sessions for non-owners, and trusted pet sitter discovery.</p></div></li>
+      <li><span class="fi">🏪</span><div><p class="ft">Marketplace</p><p class="fd">Shop pet essentials while businesses manage services and bookings from one profile.</p></div></li>
+      <li><span class="fi">👤</span><div><p class="ft">User Profiles</p><p class="fd">Pet details, posts, bookmarks, and badge levels, with analytics and verified business profiles.</p></div></li>
+      <li><span class="fi">💼</span><div><p class="ft">Business Tools</p><p class="fd">Location-based promotions and analytics for small pet businesses.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- FULL BLEED — Overview screens -->
+<div class="bleed tall r">
+  <img src="images/petgram-overview.jpg" alt="App screens overview" />
+  <div class="bleed-ph">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><rect x="3" y="8" width="54" height="54" rx="5" stroke="#7ecae3" stroke-width="1.2"/><circle cx="17" cy="26" r="6" stroke="#7ecae3" stroke-width="1"/><path d="M3 42 L16 30 L26 38 L36 30 L57 46" stroke="#7ecae3" stroke-width="1.1" stroke-linecap="round"/></svg>
+    <span>Add petgram-overview.jpg — all app screens together</span>
+  </div>
+</div>
+<p class="cap r">Petgram — Home Feed, Discover, Adopt & Play, Services & Profile screens</p>
+
+<!-- PULL QUOTE 2 -->
+<div class="wrap">
+  <div class="pq r">
+    <p>Petgram is more than an app — it's a movement toward making pet care, love, and bonding more inclusive, accessible, and joyful.</p>
+    <cite>Petgram Project Vision</cite>
+  </div>
+</div>
+
+<!-- TAKEAWAY -->
+<div class="takeaway r">
+  <p>"Good design solves problems.<br>Great design creates <em>meaningful connections.</em>"</p>
+  <cite>Petgram · Radhika · Delhi Technological University</cite>
+</div>
+
+<!-- UP NEXT -->
+<footer>© 2026 Radhika · All rights reserved.</footer>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+// ── Hover-to-play video cells (desktop) ──
+document.querySelectorAll('.video-cell').forEach(cell => {
+  const video = cell.querySelector('.cell-video');
+  cell.addEventListener('mouseenter', () => {
+    video.play().catch(() => {});
+  });
+  cell.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+});
+
+// ── Tap-to-play video cells (mobile touch) ──
+if ('ontouchstart' in window) {
+  document.querySelectorAll('.video-cell').forEach(cell => {
+    const video = cell.querySelector('.cell-video');
+    const hint  = cell.querySelector('.play-hint');
+    cell.addEventListener('click', () => {
+      if (video.paused) {
+        video.play().catch(() => {});
+        if (hint) hint.style.opacity = '0';
+      } else {
+        video.pause();
+        video.currentTime = 0;
+        if (hint) hint.style.opacity = '1';
+      }
+    });
+  });
+}
+</script>
+
+<div class="back-cta">
+  <a href="index.html#projects" class="back-btn">← Back to All Work</a>
+</div>
+
+</body>
+</html>
